@@ -3,7 +3,7 @@ import AddTodoItem from "../components/AddTodoItem";
 import TodoList from "../components/TodoList";
 
 const Todo = () => {
-  const [items, addList] = useState<string[]>(["air"]);
+  const [items, addList] = useState<string[]>([]);
   const [checkedAll, setCheckedAll] = useState<boolean>(false);
 
   return (
