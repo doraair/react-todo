@@ -2,11 +2,13 @@ import React, { useState } from "react";
 
 interface AddTodoItemType {
   onAddItem: (newItem: string) => void;
+  onCheckedChange: (checked: boolean) => void;
   placeholderText: string;
 }
 
 const AddTodoItem: React.FC<AddTodoItemType> = ({
   onAddItem,
+  onCheckedChange,
   placeholderText,
 }) => {
   //   const [] = useState(); // default
@@ -15,15 +17,26 @@ const AddTodoItem: React.FC<AddTodoItemType> = ({
 
   const [todoText, setTodoText] = useState<string>("");
 
+  const submitHandler = (e: React.FormEvent<HTMLElement>) => {
+    e.preventDefault();
+    onAddItem(todoText);
+    setTodoText("");
+  };
+
   return (
     <form
       onSubmit={(e) => {
-        e.preventDefault();
-        onAddItem(todoText);
+        submitHandler(e);
       }}
     >
       <input
+        onChange={(e) => onCheckedChange(e.target.checked)}
+        type="checkbox"
+      ></input>
+
+      <input
         type="text"
+        value={todoText}
         placeholder={placeholderText}
         onChange={(e) => {
           setTodoText(e.target.value);

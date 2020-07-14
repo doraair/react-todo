@@ -4,16 +4,18 @@ import TodoList from "../components/TodoList";
 
 const Todo = () => {
   const [items, addList] = useState<string[]>(["air"]);
-  //   const printOnConsoleLog = (text: string) => {
-  //     console.log(text);
-  //   };
+  const [checkedAll, setCheckedAll] = useState<boolean>(false);
 
   return (
     <>
       <h2>Todos</h2>
-      <TodoList displayList={items}></TodoList>
+      <TodoList displayList={items} checkedAll={checkedAll}></TodoList>
       <AddTodoItem
         onAddItem={(newItem) => addList(items.concat(newItem))}
+        onCheckedChange={(checked) => {
+          setCheckedAll(checked);
+          console.log(checked);
+        }}
         placeholderText="What needs to be done?"
       />
     </>
