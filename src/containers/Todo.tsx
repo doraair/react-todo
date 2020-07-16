@@ -5,7 +5,7 @@ import { TodoItemType } from "../components/TodoItem";
 
 const Todo = () => {
   const [items, addList] = useState<TodoItemType[]>([]);
-  const [runningNumber, updateRunningNumber] = useState<number>(0);
+  const [runningNumber, updateRunningNumber] = useState<number>(1);
 
   const addNewItemIntoList = (todoText: string) => {
     const newItem: TodoItemType = {
@@ -20,16 +20,30 @@ const Todo = () => {
   };
 
   const applyCheckedAll = (isChecked: boolean) => {
-    items.map((item) => {
-      item.isChecked = isChecked;
-    });
-    addList(items);
+    addList(
+      items.map((item) => {
+        return { ...item, isChecked: isChecked };
+      })
+    );
+  };
+
+  const applyCheckedByItem = (key: string, isChecked: boolean) => {
+    addList(
+      items.map((item) => {
+        return item.key === key ? { ...item, isChecked: isChecked } : item;
+      })
+    );
   };
 
   return (
     <>
       <h2>Todos</h2>
-      <TodoList displayList={items}></TodoList>
+      <TodoList
+        displayList={items}
+        onCheckedChange={(key, checked) => {
+          applyCheckedByItem(key, checked);
+        }}
+      ></TodoList>
       <AddTodoItem
         onAddItem={(newItem) => addNewItemIntoList(newItem)}
         onCheckedChange={(checked) => {

@@ -2,13 +2,13 @@ import React from "react";
 import TodoItem, { TodoItemType } from "./TodoItem";
 interface TodoListProp {
   displayList: TodoItemType[];
+  onCheckedChange(key: string, checked: boolean): void;
 }
 
-const TodoList: React.FC<TodoListProp> = ({ displayList }) => {
+const TodoList: React.FC<TodoListProp> = ({ displayList, onCheckedChange }) => {
   return (
     <div>
       {displayList.map((item) => {
-        console.log(item.key);
         return (
           <>
             <li>
@@ -17,7 +17,7 @@ const TodoList: React.FC<TodoListProp> = ({ displayList }) => {
                 type="checkbox"
                 checked={item.isChecked}
                 onChange={(e) => {
-                  console.log(e.target.checked);
+                  onCheckedChange(item.key, e.target.checked);
                 }}
               ></input>
               {item.text}
