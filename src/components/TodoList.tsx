@@ -1,32 +1,26 @@
 import React from "react";
-import TodoItem, { TodoItemType } from "./TodoItem";
+import TodoItem, { TodoItemModel } from "./TodoItem";
 interface TodoListProp {
-  displayList: TodoItemType[];
+  displayList: TodoItemModel[];
   onCheckedChange(key: string, checked: boolean): void;
 }
 
 const TodoList: React.FC<TodoListProp> = ({ displayList, onCheckedChange }) => {
-  return (
-    <div>
-      {displayList.map((item) => {
-        return (
-          <>
-            <li>
-              <input
-                id={item.key}
-                type="checkbox"
-                checked={item.isChecked}
-                onChange={(e) => {
-                  onCheckedChange(item.key, e.target.checked);
-                }}
-              ></input>
-              {item.text}
-            </li>
-          </>
-        );
-      })}
-    </div>
-  );
+  const todoItems = displayList.map((item) => {
+    return (
+      <li key={item.key}>
+        {/* added key attribute for fixing Warning: Each child in a list should have a unique "key" prop. */}
+        <TodoItem
+          todoItem={item}
+          onCheckedChange={(key, checked) => {
+            onCheckedChange(key, checked);
+          }}
+        />
+      </li>
+    );
+  });
+
+  return <div>{todoItems}</div>;
 };
 
 export default TodoList;

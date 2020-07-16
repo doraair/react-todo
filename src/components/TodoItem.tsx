@@ -1,29 +1,31 @@
-import React, { useState } from "react";
+import React from "react";
 
-export interface TodoItemType {
+export interface TodoItemModel {
   key: string;
   isChecked: boolean;
   text: string;
 }
 
+export interface TodoItemType {
+  todoItem: TodoItemModel;
+  onCheckedChange(key: string, checked: boolean): void;
+}
+
 const TodoItem: React.FC<TodoItemType> = ({
-  isChecked,
-  text,
+  todoItem,
+  onCheckedChange,
 }: TodoItemType) => {
-  const [itemChecked, setItemChecked] = useState<boolean>(false);
   return (
     <>
-      <li>
-        <input
-          type="checkbox"
-          checked={isChecked || itemChecked}
-          onChange={(e) => {
-            console.log(e.target.checked);
-            setItemChecked(e.target.checked);
-          }}
-        ></input>
-        {text}
-      </li>
+      <input
+        id={todoItem.key}
+        type="checkbox"
+        checked={todoItem.isChecked}
+        onChange={(e) => {
+          onCheckedChange(todoItem.key, e.target.checked);
+        }}
+      ></input>
+      {todoItem.text}
     </>
   );
 };

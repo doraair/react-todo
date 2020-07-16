@@ -1,14 +1,14 @@
 import React, { useState } from "react";
 import AddTodoItem from "../components/AddTodoItem";
 import TodoList from "../components/TodoList";
-import { TodoItemType } from "../components/TodoItem";
+import { TodoItemModel } from "../components/TodoItem";
 
 const Todo = () => {
-  const [items, addList] = useState<TodoItemType[]>([]);
+  const [items, addList] = useState<TodoItemModel[]>([]);
   const [runningNumber, updateRunningNumber] = useState<number>(1);
 
   const addNewItemIntoList = (todoText: string) => {
-    const newItem: TodoItemType = {
+    const newItem: TodoItemModel = {
       key: runningNumber.toString(),
       text: todoText,
       isChecked: false,
