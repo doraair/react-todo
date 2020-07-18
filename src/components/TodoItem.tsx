@@ -29,14 +29,13 @@ const TodoItem: React.FC<TodoItemType> = ({
       ></input>
       {todoItem.text}
 
-      <button
+      <input
         type="button"
+        value="Delete"
         onClick={(e) => {
           onClickDelete(todoItem.key);
         }}
-      >
-        Delete
-      </button>
+      ></input>
     </>
   );
 };

@@ -11,10 +11,6 @@ const AddTodoItem: React.FC<AddTodoItemType> = ({
   onCheckedChange,
   placeholderText,
 }) => {
-  //   const [] = useState(); // default
-  //   const [count, setCount] = useState<number | null>();
-  //   const [text, settext] = useState<{text: string}}>({text: "air"});
-
   const [todoText, setTodoText] = useState<string>("");
 
   const submitHandler = (e: React.FormEvent<HTMLElement>) => {

@@ -2,10 +2,45 @@ import React, { useState } from "react";
 import AddTodoItem from "../components/AddTodoItem";
 import TodoList from "../components/TodoList";
 import { TodoItemModel } from "../components/TodoItem";
-
+import TodoFooter, { TodoFilter } from "../components/TodoFooter";
 const Todo = () => {
-  const [items, addList] = useState<TodoItemModel[]>([]);
+  const [todoList, setTodoList] = useState<TodoItemModel[]>([]);
+  const [displayList, setDisplayList] = useState<TodoItemModel[]>([]);
+  const [displayFilter, setDisplayFilter] = useState<TodoFilter>(
+    TodoFilter.All
+  );
   const [runningNumber, updateRunningNumber] = useState<number>(1);
+
+  const applyFilterToDisplayList = (
+    items: TodoItemModel[],
+    filter: TodoFilter
+  ) => {
+    switch (filter) {
+      case TodoFilter.All:
+        setDisplayList(items);
+        break;
+
+      case TodoFilter.Active:
+        setDisplayList(
+          items.filter((item) => {
+            return !item.isCompleted;
+          })
+        );
+        break;
+
+      case TodoFilter.Completed:
+        setDisplayList(
+          items.filter((item) => {
+            return item.isCompleted;
+          })
+        );
+        break;
+
+      default:
+        setDisplayList(items);
+        break;
+    }
+  };
 
   const addNewItemIntoList = (todoText: string) => {
     const newItem: TodoItemModel = {
@@ -15,38 +50,51 @@ const Todo = () => {
     };
 
     updateRunningNumber(runningNumber + 1);
-
-    addList(items.concat(newItem));
+    const data = todoList.concat(newItem);
+    setTodoList(data);
+    applyFilterToDisplayList(data, displayFilter);
   };
 
   const applyCheckedAll = (isChecked: boolean) => {
-    addList(
-      items.map((item) => {
-        return { ...item, isCompleted: isChecked };
-      })
-    );
+    const data = todoList.map((item) => {
+      return { ...item, isCompleted: isChecked };
+    });
+
+    setTodoList(data);
+    applyFilterToDisplayList(data, displayFilter);
   };
 
   const setCompletedTodoItem = (key: string, isChecked: boolean) => {
-    addList(
-      items.map((item) => {
-        return item.key === key ? { ...item, isCompleted: isChecked } : item;
-      })
-    );
+    const data = todoList.map((item) => {
+      return item.key === key ? { ...item, isCompleted: isChecked } : item;
+    });
+
+    setTodoList(data);
+    applyFilterToDisplayList(data, displayFilter);
   };
 
   const deleteTodoItem = (key: string) => {
-    addList(
-      items.filter((item) => {
-        return item.key !== key;
-      })
-    );
+    const data = todoList.filter((item) => {
+      return item.key !== key;
+    });
+    setTodoList(data);
+    applyFilterToDisplayList(data, displayFilter);
   };
+
+  const deleteAllCompleted = () => {
+    const data = todoList.filter((item) => {
+      return item.isCompleted === false;
+    });
+
+    setTodoList(data);
+    applyFilterToDisplayList(data, displayFilter);
+  };
+
   return (
     <>
       <h2>Todos</h2>
       <TodoList
-        displayList={items}
+        displayList={displayList}
         completeTodoItem={(key, isCompleted) => {
           setCompletedTodoItem(key, isCompleted);
         }}
@@ -61,6 +109,16 @@ const Todo = () => {
         }}
         placeholderText="What needs to be done?"
       />
+      <TodoFooter
+        todoList={todoList}
+        clearCompleted={() => {
+          deleteAllCompleted();
+        }}
+        displayByTodoFilter={(filter) => {
+          setDisplayFilter(filter);
+          applyFilterToDisplayList(todoList, filter);
+        }}
+      ></TodoFooter>
     </>
   );
 };
