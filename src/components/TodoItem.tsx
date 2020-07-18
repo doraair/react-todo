@@ -18,25 +18,44 @@ const TodoItem: React.FC<TodoItemType> = ({
   onClickDelete,
 }: TodoItemType) => {
   return (
-    <>
-      <input
-        id={todoItem.key}
-        type="checkbox"
-        checked={todoItem.isCompleted}
-        onChange={(e) => {
-          onCheckedChange(todoItem.key, e.target.checked);
-        }}
-      ></input>
-      {todoItem.text}
+    <li className="list-group-item">
+      <div className="custom-control custom-checkbox">
+        <input
+          id={todoItem.key}
+          type="checkbox"
+          className="custom-control-input"
+          checked={todoItem.isCompleted}
+          onChange={(e) => {
+            onCheckedChange(todoItem.key, e.target.checked);
+          }}
+        ></input>
+        <label
+          className="custom-control-label"
+          htmlFor={todoItem.key}
+          style={
+            todoItem.isCompleted
+              ? {
+                  textDecorationLine: "line-through",
+                  textDecorationStyle: "solid",
+                }
+              : {}
+          }
+        >
+          {todoItem.text}
+        </label>
 
-      <input
-        type="button"
-        value="Delete"
-        onClick={(e) => {
-          onClickDelete(todoItem.key);
-        }}
-      ></input>
-    </>
+        <button
+          type="button"
+          className="close"
+          aria-label="Close"
+          onClick={(e) => {
+            onClickDelete(todoItem.key);
+          }}
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+    </li>
   );
 };
 export default TodoItem;

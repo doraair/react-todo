@@ -98,7 +98,7 @@ const Todo = () => {
   };
 
   return (
-    <>
+    <div className="container">
       <h2>Todos</h2>
       <AddTodoItem
         onAddItem={(newItem) => addNewItemIntoList(newItem)}
@@ -116,8 +116,10 @@ const Todo = () => {
           deleteTodoItem(key);
         }}
       ></TodoList>
+      <br />
       <TodoFooter
         todoActiveCount={activeTodoCount}
+        isShow={todoList.length > 0}
         clearCompleted={() => {
           deleteAllCompleted();
         }}
@@ -126,7 +128,7 @@ const Todo = () => {
           applyFilterToDisplayList(todoList, filter);
         }}
       ></TodoFooter>
-    </>
+    </div>
   );
 };
 

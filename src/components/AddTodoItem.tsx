@@ -22,25 +22,36 @@ const AddTodoItem: React.FC<AddTodoItemType> = ({
   };
 
   return (
-    <form
-      onSubmit={(e) => {
-        submitHandler(e);
-      }}
-    >
-      <input
-        onChange={(e) => onCheckedChange(e.target.checked)}
-        type="checkbox"
-      ></input>
-
-      <input
-        type="text"
-        value={todoText}
-        placeholder={placeholderText}
-        onChange={(e) => {
-          setTodoText(e.target.value.trim());
+    <>
+      <form
+        onSubmit={(e) => {
+          submitHandler(e);
         }}
-      />
-    </form>
+      >
+        <div className="input-group mb-3">
+          <div className="input-group-prepend">
+            <span className="input-group-text" id="basic-addon1">
+              <input
+                type="checkbox"
+                onChange={(e) => {
+                  onCheckedChange(e.target.checked);
+                }}
+              ></input>
+            </span>
+          </div>
+
+          <input
+            type="text"
+            value={todoText}
+            className="form-control"
+            placeholder={placeholderText}
+            onChange={(e) => {
+              setTodoText(e.target.value.trim());
+            }}
+          />
+        </div>
+      </form>
+    </>
   );
 };
 

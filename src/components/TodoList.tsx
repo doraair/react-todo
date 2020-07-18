@@ -13,7 +13,7 @@ const TodoList: React.FC<TodoListProp> = ({
 }) => {
   const todoItems = displayList.map((item) => {
     return (
-      <li key={item.key}>
+      <ul key={item.key} className="list-group">
         {/* added key attribute for fixing Warning: Each child in a list should have a unique "key" prop. */}
         <TodoItem
           todoItem={item}
@@ -24,11 +24,11 @@ const TodoList: React.FC<TodoListProp> = ({
             deleteTodoItem(key);
           }}
         />
-      </li>
+      </ul>
     );
   });
 
-  return <div>{todoItems}</div>;
+  return <>{todoItems}</>;
 };
 
 export default TodoList;
