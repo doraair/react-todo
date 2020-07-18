@@ -1,5 +1,4 @@
 import React from "react";
-import { TodoItemModel } from "./TodoItem";
 
 export enum TodoFilter {
   All,
@@ -8,19 +7,19 @@ export enum TodoFilter {
 }
 
 export interface TodoFilterProp {
-  todoList: TodoItemModel[];
+  todoActiveCount: number;
   clearCompleted(): void;
   displayByTodoFilter(filter: TodoFilter): void;
 }
 
 const TodoFooter: React.FC<TodoFilterProp> = ({
-  todoList,
+  todoActiveCount,
   clearCompleted,
   displayByTodoFilter,
 }) => {
   return (
     <>
-      <span>{todoList.length} items left</span>
+      <span>{todoActiveCount} items left</span>
       <input
         type="button"
         value="All"

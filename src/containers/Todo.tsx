@@ -10,6 +10,7 @@ const Todo = () => {
     TodoFilter.All
   );
   const [runningNumber, updateRunningNumber] = useState<number>(1);
+  const [activeTodoCount, setActiveTodoCount] = useState<number>(0);
 
   const applyFilterToDisplayList = (
     items: TodoItemModel[],
@@ -40,6 +41,12 @@ const Todo = () => {
         setDisplayList(items);
         break;
     }
+
+    setActiveTodoCount(
+      items.filter((items) => {
+        return !items.isCompleted;
+      }).length
+    );
   };
 
   const addNewItemIntoList = (todoText: string) => {
@@ -110,7 +117,7 @@ const Todo = () => {
         }}
       ></TodoList>
       <TodoFooter
-        todoList={todoList}
+        todoActiveCount={activeTodoCount}
         clearCompleted={() => {
           deleteAllCompleted();
         }}
