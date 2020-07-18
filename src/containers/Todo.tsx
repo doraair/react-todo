@@ -93,6 +93,13 @@ const Todo = () => {
   return (
     <>
       <h2>Todos</h2>
+      <AddTodoItem
+        onAddItem={(newItem) => addNewItemIntoList(newItem)}
+        onCheckedChange={(checked) => {
+          applyCheckedAll(checked);
+        }}
+        placeholderText="What needs to be done?"
+      />
       <TodoList
         displayList={displayList}
         completeTodoItem={(key, isCompleted) => {
@@ -102,13 +109,6 @@ const Todo = () => {
           deleteTodoItem(key);
         }}
       ></TodoList>
-      <AddTodoItem
-        onAddItem={(newItem) => addNewItemIntoList(newItem)}
-        onCheckedChange={(checked) => {
-          applyCheckedAll(checked);
-        }}
-        placeholderText="What needs to be done?"
-      />
       <TodoFooter
         todoList={todoList}
         clearCompleted={() => {
