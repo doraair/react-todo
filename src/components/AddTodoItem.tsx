@@ -19,8 +19,10 @@ const AddTodoItem: React.FC<AddTodoItemType> = ({
 
   const submitHandler = (e: React.FormEvent<HTMLElement>) => {
     e.preventDefault();
-    onAddItem(todoText);
-    setTodoText("");
+    if (todoText.length > 0) {
+      onAddItem(todoText);
+      setTodoText("");
+    }
   };
 
   return (
@@ -39,7 +41,7 @@ const AddTodoItem: React.FC<AddTodoItemType> = ({
         value={todoText}
         placeholder={placeholderText}
         onChange={(e) => {
-          setTodoText(e.target.value);
+          setTodoText(e.target.value.trim());
         }}
       />
     </form>

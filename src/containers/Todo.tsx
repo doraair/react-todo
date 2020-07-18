@@ -11,7 +11,7 @@ const Todo = () => {
     const newItem: TodoItemModel = {
       key: runningNumber.toString(),
       text: todoText,
-      isChecked: false,
+      isCompleted: false,
     };
 
     updateRunningNumber(runningNumber + 1);
@@ -22,26 +22,36 @@ const Todo = () => {
   const applyCheckedAll = (isChecked: boolean) => {
     addList(
       items.map((item) => {
-        return { ...item, isChecked: isChecked };
+        return { ...item, isCompleted: isChecked };
       })
     );
   };
 
-  const applyCheckedByItem = (key: string, isChecked: boolean) => {
+  const setCompletedTodoItem = (key: string, isChecked: boolean) => {
     addList(
       items.map((item) => {
-        return item.key === key ? { ...item, isChecked: isChecked } : item;
+        return item.key === key ? { ...item, isCompleted: isChecked } : item;
       })
     );
   };
 
+  const deleteTodoItem = (key: string) => {
+    addList(
+      items.filter((item) => {
+        return item.key !== key;
+      })
+    );
+  };
   return (
     <>
       <h2>Todos</h2>
       <TodoList
         displayList={items}
-        onCheckedChange={(key, checked) => {
-          applyCheckedByItem(key, checked);
+        completeTodoItem={(key, isCompleted) => {
+          setCompletedTodoItem(key, isCompleted);
+        }}
+        deleteTodoItem={(key) => {
+          deleteTodoItem(key);
         }}
       ></TodoList>
       <AddTodoItem

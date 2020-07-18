@@ -2,10 +2,15 @@ import React from "react";
 import TodoItem, { TodoItemModel } from "./TodoItem";
 interface TodoListProp {
   displayList: TodoItemModel[];
-  onCheckedChange(key: string, checked: boolean): void;
+  completeTodoItem(key: string, isCompleted: boolean): void;
+  deleteTodoItem(key: string): void;
 }
 
-const TodoList: React.FC<TodoListProp> = ({ displayList, onCheckedChange }) => {
+const TodoList: React.FC<TodoListProp> = ({
+  displayList,
+  completeTodoItem,
+  deleteTodoItem,
+}) => {
   const todoItems = displayList.map((item) => {
     return (
       <li key={item.key}>
@@ -13,7 +18,10 @@ const TodoList: React.FC<TodoListProp> = ({ displayList, onCheckedChange }) => {
         <TodoItem
           todoItem={item}
           onCheckedChange={(key, checked) => {
-            onCheckedChange(key, checked);
+            completeTodoItem(key, checked);
+          }}
+          onClickDelete={(key) => {
+            deleteTodoItem(key);
           }}
         />
       </li>
