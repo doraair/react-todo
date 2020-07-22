@@ -3,7 +3,11 @@ import AddTodoItem from "../components/AddTodoItem";
 import TodoList from "../components/TodoList";
 import { TodoItemModel } from "../components/TodoItem";
 import TodoFooter, { TodoFilter } from "../components/TodoFooter";
+import { useLocalStorage, useLocalStorageArray } from "../shared/StorageUtils";
+
 const Todo = () => {
+  const todoStorageKey: string = "todolist";
+  // const [todoList, setTodoList] = useLocalStorageArray(todoStorageKey, []);
   const [todoList, setTodoList] = useState<TodoItemModel[]>([]);
   const [displayList, setDisplayList] = useState<TodoItemModel[]>([]);
   const [displayFilter, setDisplayFilter] = useState<TodoFilter>(
@@ -57,7 +61,7 @@ const Todo = () => {
     };
 
     updateRunningNumber(runningNumber + 1);
-    const data = todoList.concat(newItem);
+    const data = [...todoList, newItem];
     setTodoList(data);
     applyFilterToDisplayList(data, displayFilter);
   };
