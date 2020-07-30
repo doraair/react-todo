@@ -1,40 +1,6 @@
 import { useState } from "react";
 
-export const useLocalStorageArray = (key: string, initialData: []): [any[], (data: any[]) => void] => {
-  const [items, setItems] = useState(() => {
-    try {
-      console.log("get data from local storage key: " + key);
-      // Get from local storage by key
-      const item = window.localStorage.getItem(key);
-      // Parse stored json or if none return initialValue
-      const returnVaue = item ? JSON.parse(item) : initialData;
-
-      return returnVaue;
-    } catch (error) {
-      // If error also return initialValue
-      console.log(error);
-      return initialData;
-    }
-  });
-
-  const setData = (data: any[]) => {
-    try {
-      // Save state
-      setItems(data);
-      // Save to local storage
-      console.log(data);
-      window.localStorage.setItem(key, JSON.stringify(data));
-    } catch (error) {
-      // A more advanced implementation would handle the error case
-      console.log(error);
-    }
-  };
-
-  return [items, setData];
-};
-
 // custom Hook
-
 export const useLocalStorage = <s>(key: string, dataValue: s): [s, (data: s) => void] => {
   // State to store our value
   // Pass initial state function to useState so logic is only executed once
