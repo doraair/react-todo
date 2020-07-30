@@ -1,7 +1,7 @@
 import { useState } from "react";
 
-export const useLocalStorageArray = (key: string, initialData: []) => {
-  const [items, setItems] = useState<[]>(() => {
+export const useLocalStorageArray = (key: string, initialData: []): [any[], (data: any[]) => void] => {
+  const [items, setItems] = useState(() => {
     try {
       console.log("get data from local storage key: " + key);
       // Get from local storage by key
@@ -17,12 +17,13 @@ export const useLocalStorageArray = (key: string, initialData: []) => {
     }
   });
 
-  const setData = (data: []) => {
+  const setData = (data: any[]) => {
     try {
       // Save state
       setItems(data);
       // Save to local storage
-      window.localStorage.setItem(key, JSON.stringify(setItems));
+      console.log(data);
+      window.localStorage.setItem(key, JSON.stringify(data));
     } catch (error) {
       // A more advanced implementation would handle the error case
       console.log(error);
@@ -34,10 +35,10 @@ export const useLocalStorageArray = (key: string, initialData: []) => {
 
 // custom Hook
 
-export const useLocalStorage = (key: string, dataValue: string) => {
+export const useLocalStorage = <s>(key: string, dataValue: s): [s, (data: s) => void] => {
   // State to store our value
   // Pass initial state function to useState so logic is only executed once
-  const [storedValue, setStoredValue] = useState<string>(() => {
+  const [storedValue, setStoredValue] = useState<s>(() => {
     try {
       console.log("local storage key: " + key);
       // Get from local storage by key
@@ -55,7 +56,7 @@ export const useLocalStorage = (key: string, dataValue: string) => {
 
   // Return a wrapped version of useState's setter function that ...
   // ... persists the new value to localStorage.
-  const setValue = (value: string) => {
+  const setValue = (value: s) => {
     try {
       console.log("on setValue() with value " + value);
       console.log("A old value is: " + storedValue);

@@ -1,14 +1,14 @@
-import React, { useState } from "react";
-import AddTodoItem from "../components/AddTodoItem";
-import TodoList from "../components/TodoList";
-import { TodoItemModel } from "../components/TodoItem";
-import TodoFooter, { TodoFilter } from "../components/TodoFooter";
-import { useLocalStorage, useLocalStorageArray } from "../shared/StorageUtils";
+import React, { useState } from 'react';
+import AddTodoItem from '../components/AddTodoItem';
+import TodoList from '../components/TodoList';
+import { TodoItemModel } from '../components/TodoItem';
+import TodoFooter, { TodoFilter } from '../components/TodoFooter';
+import { useLocalStorage, useLocalStorageArray } from '../shared/StorageUtils';
 
 const Todo = () => {
-  const todoStorageKey: string = "todolist";
-  // const [todoList, setTodoList] = useLocalStorageArray(todoStorageKey, []);
-  const [todoList, setTodoList] = useState<TodoItemModel[]>([]);
+  const todoStorageKey: string = 'todolist';
+  const [todoList, setTodoList] = useLocalStorage<any[]>(todoStorageKey, []);
+  // const [todoList, setTodoList] = useState<TodoItemModel[]>([]);
   const [displayList, setDisplayList] = useState<TodoItemModel[]>([]);
   const [displayFilter, setDisplayFilter] = useState<TodoFilter>(
     TodoFilter.All
@@ -63,6 +63,7 @@ const Todo = () => {
     updateRunningNumber(runningNumber + 1);
     const data = [...todoList, newItem];
     setTodoList(data);
+    console.log(data);
     applyFilterToDisplayList(data, displayFilter);
   };
 
@@ -102,14 +103,14 @@ const Todo = () => {
   };
 
   return (
-    <div className="container">
+    <div className='container'>
       <h2>Todos</h2>
       <AddTodoItem
         onAddItem={(newItem) => addNewItemIntoList(newItem)}
         onCheckedChange={(checked) => {
           applyCheckedAll(checked);
         }}
-        placeholderText="What needs to be done?"
+        placeholderText='What needs to be done?'
       />
       <TodoList
         displayList={displayList}
