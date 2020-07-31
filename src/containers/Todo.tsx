@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import AddTodoItem from "../components/AddTodoItem";
 import TodoList from "../components/TodoList";
 import { TodoItemModel } from "../components/TodoItem";
@@ -16,11 +16,9 @@ const Todo = () => {
   const [runningNumber, updateRunningNumber] = useState<number>(1);
   const [activeTodoCount, setActiveTodoCount] = useState<number>(0);
 
-  const applyFilterToDisplayList = (
-    items: TodoItemModel[],
-    filter: TodoFilter
-  ) => {
-    switch (filter) {
+  useEffect(()=>{
+    let items = [...todoList];
+    switch (displayFilter) {
       case TodoFilter.All:
         setDisplayList(items);
         break;
@@ -51,7 +49,8 @@ const Todo = () => {
         return !items.isCompleted;
       }).length
     );
-  };
+
+  },[todoList, displayFilter]);
 
   const addNewItemIntoList = (todoText: string) => {
     const newItem: TodoItemModel = {
@@ -64,7 +63,6 @@ const Todo = () => {
     const data = [...todoList, newItem];
     setTodoList(data);
     console.log(data);
-    applyFilterToDisplayList(data, displayFilter);
   };
 
   const applyCheckedAll = (isChecked: boolean) => {
@@ -73,7 +71,6 @@ const Todo = () => {
     });
 
     setTodoList(data);
-    applyFilterToDisplayList(data, displayFilter);
   };
 
   const setCompletedTodoItem = (key: string, isChecked: boolean) => {
@@ -82,7 +79,6 @@ const Todo = () => {
     });
 
     setTodoList(data);
-    applyFilterToDisplayList(data, displayFilter);
   };
 
   const deleteTodoItem = (key: string) => {
@@ -90,7 +86,6 @@ const Todo = () => {
       return item.key !== key;
     });
     setTodoList(data);
-    applyFilterToDisplayList(data, displayFilter);
   };
 
   const deleteAllCompleted = () => {
@@ -99,7 +94,6 @@ const Todo = () => {
     });
 
     setTodoList(data);
-    applyFilterToDisplayList(data, displayFilter);
   };
 
   return (
@@ -130,7 +124,6 @@ const Todo = () => {
         }}
         displayByTodoFilter={(filter) => {
           setDisplayFilter(filter);
-          applyFilterToDisplayList(todoList, filter);
         }}
       ></TodoFooter>
     </div>
