@@ -3,11 +3,13 @@ import ReactDOM from "react-dom";
 import "./index.css";
 import * as serviceWorker from "./serviceWorker";
 import Todo from "./containers/Todo";
+import User from "./containers/User";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 ReactDOM.render(
   <React.StrictMode>
     <Todo />
+    <User />
   </React.StrictMode>,
   document.getElementById("root")
 );
